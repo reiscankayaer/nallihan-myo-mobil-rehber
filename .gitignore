@@ -1,0 +1,203 @@
+# =============================================================================
+# Nallıhan MYO Mobil Uygulaması ve Yönetim Sistemi — .gitignore
+# =============================================================================
+#
+# Bu depo tek bir Git kökünden iki uygulamayı birden taşır: /mobile altındaki
+# Expo (React Native) öğrenci uygulaması ve /admin altındaki Vite (React) web
+# yönetim paneli. Aşağıdaki kurallar, geliştirme sırasında makinede oluşan ama
+# kaynak kod olmayan dosyaların GitHub'a gitmesini engeller.
+#
+# Derste bu dosya şöyle okunur. Git, projeyi yeniden kurmak için gereken
+# tarifi saklar: kaynak kod, package.json, kilit dosyası ve bu depodaki
+# belgeler. Tariften her seferinde üretilebilen klasörler, yalnızca bir
+# kişinin bilgisayarında anlamlı olan kalıntılar ve gizli anahtarlar saklanmaz.
+# Hocanın veya jürinin klonladığı depo böylece küçük, okunabilir ve sır
+# içermeyen bir kaynak olarak kalır. Kurulum, burada yok sayılan klasörleri
+# yeniden üretir.
+
+# -----------------------------------------------------------------------------
+# Bağımlılıklar
+# -----------------------------------------------------------------------------
+# JavaScript uygulamaları kullandıkları kütüphaneleri package.json içinde ad
+# ve sürüm aralığı olarak tarif eder. package-lock.json ise aynı kurulumu
+# her makinede birebir tekrarlamak için kilitlenmiş sürümleri tutar; o dosya
+# depoya girer. node_modules klasörü bu tariften indirilen on binlerce
+# dosyanın yerel kopyasıdır. Onu versiyonlamak depoyu şişirir, klonlamayı
+# uzatır ve işletim sistemine göre değişen ikili paketler yüzünden anlamsız
+# birleştirme çakışmaları üretir. Geliştirici de jüri de `npm install`
+# çalıştırdığında klasör baştan oluşur.
+
+node_modules/
+
+# -----------------------------------------------------------------------------
+# Expo, Metro ve önbellekler
+# -----------------------------------------------------------------------------
+# Expo, geliştirme sunucusunu açarken .expo klasöründe oturum, günlük ve
+# geçici yapılandırma tutar. Bu içerik makineye ve o anki çalıştırmaya aittir;
+# başka bir bilgisayarda yeniden üretilir. Metro paketleyicisinin sağlık
+# kontrolü dosyaları da aynı türdendir: derleme aracının kendi notlarıdır,
+# uygulamanın kaynağı değildir. web-build ve dist, Expo web dışa aktarımının
+# hazır çıktısıdır; kaynak değişince yeniden basılır. expo-env.d.ts bazı Expo
+# sürümlerinde otomatik üretilen bir tip bildirimidir, elle yazılmış kaynak
+# gibi ele alınmaz.
+
+.expo/
+.expo-shared/
+.metro-health-check*
+web-build/
+expo-env.d.ts
+
+# -----------------------------------------------------------------------------
+# Android ve iOS derleme çıktıları
+# -----------------------------------------------------------------------------
+# Yönetilen Expo iş akışında android/ ve ios/ klasörleri elle yazılan kaynak
+# değildir. `npx expo prebuild` bu klasörleri uygulama tarifinden yeniden
+# üretir. İçlerinde Gradle ara dosyaları, Xcode türetilmiş verileri, CocoaPods
+# bağımlılıkları ve onlarca megabaytlık derleme kalıntısı birikir. Bunlar
+# işletim sistemine ve o anki SDK sürümüne bağlıdır. Depoya girerlerse ekip
+# arkadaşının derlemesiyle çakışır ve GitHub kotasını boşa harcar.
+#
+# Kurallar monorepo düzenine göre /mobile altını hedefler. İleride ekip
+# bilinçli olarak özel yerel kod yazıp bu klasörleri kaynağa dahil etmek
+# isterse, bu karar devir notuna ve bir değişiklik kaydına işlenir. O güne
+# kadar üretilmiş yerel projeler takip edilmez.
+#
+# .apk, .aab ve .ipa dosyaları mağazaya giden paketlerdir. Kaynak değildir,
+# yeniden derlenir ve imza izi taşıyabilir. Git'e konmaz.
+
+mobile/android/
+mobile/ios/
+*.apk
+*.aab
+*.ipa
+*.hprof
+
+# -----------------------------------------------------------------------------
+# İmza anahtarları ve mağaza sertifikaları
+# -----------------------------------------------------------------------------
+# Android keystore dosyaları ile Apple sertifika ve provizyon profilleri,
+# paketin gerçekten kurumun yayını olduğunu kanıtlar. Depoya düşerlerse
+# geçmişten silmek sızıntıyı geri almaz; anahtar mağaza hesaplarında
+# yenilenir. Bu dosyalar okulun kurumsal geliştirici hesabında ve şifre
+# yöneticisinde durur. Geliştiricinin bilgisayarında yalnızca derleme
+# anında bulunur.
+
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+*.orig.*
+
+# -----------------------------------------------------------------------------
+# Ortam değişkenleri ve gizli yapılandırma
+# -----------------------------------------------------------------------------
+# .env dosyaları geliştirme makinesine özel adresleri, proje kimliklerini ve
+# zaman zaman gerçek sırları tutar. Firebase servis hesabının özel anahtarı
+# veya yönetim paneline ayrıcalık veren bir değer buraya yazılabilir. Dosya
+# GitHub'a giderse sır, deponun her kopyasına ve geçmişine yayılır.
+#
+# .env.example ve .env.sample kasıtlı istisnadır. İçlerinde gerçek değer
+# yoktur; yalnızca hangi değişken adlarının doldurulacağını gösterirler.
+# Yeni geliştirici şablonu kopyalayıp kendi .env dosyasını üretir. Ünlemli
+# satırlar, bir üstteki yok sayma kuralını yalnızca bu şablonlar için geri alır.
+
+.env
+.env.*
+!.env.example
+!.env.sample
+*.local
+
+# Firebase Admin SDK servis hesabı, projenin tam yetkili özel anahtarını
+# içerir. İstemciye gömülü herkese açık yapılandırmadan farklıdır. Bu JSON
+# sızarsa güvenlik kurallarının dışından yazma imkânı doğar. Desen, dosya
+# indirme adından bağımsız olarak anahtarı deponun dışında tutar.
+
+*-adminsdk-*.json
+*firebase-adminsdk*.json
+serviceAccount*.json
+service-account*.json
+
+# -----------------------------------------------------------------------------
+# Web yönetim paneli derleme çıktıları
+# -----------------------------------------------------------------------------
+# Vite, üretim derlemesinde sıkıştırılmış ve hash'lenmiş JavaScript ile CSS
+# dosyalarını dist klasörüne basar. Bazı araçlar aynı iş için build klasörünü
+# kullanır. Bu çıktı kaynak değiştikçe baştan üretilir, elle düzenlenmez.
+# Depoda kaynak ve kilit dosyası durur; yayın sunucusu derlemeyi kendi
+# ortamında alır. Üretilmiş klasörü commit etmek, jüri incelemesine okunması
+# zor bir yığın karıştırır ve her küçük değişiklikte devasa fark yaratır.
+#
+# Kuralların başında eğik çizgi yoktur. Böylece hem /admin/dist hem de Expo
+# web dışa aktarımında oluşabilecek dist klasörleri yakalanır.
+
+dist/
+dist-ssr/
+build/
+
+# Firebase CLI'nin yerel önbelleği ve hata ayıklama günlükleri de araç
+# çıktısıdır. Güvenlik kurallarının kaynağı (firestore.rules gibi) bu
+# kalıbın dışında tutulur ve depoya yazılır.
+
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+database-debug.log
+pubsub-debug.log
+*-debug.log
+
+# -----------------------------------------------------------------------------
+# macOS kalıntıları
+# -----------------------------------------------------------------------------
+# Finder, bir klasörün ikon yerleşimini ve görüntüleme tercihlerini .DS_Store
+# dosyasına yazar. Bu dosya projenin parçası değildir. Her Mac'te içeriği
+# değişir. Depoya girerse çalışma ağacı sürekli kirli görünür ve commit'ler
+# kaynak kod yerine işletim sistemi izi taşır. .AppleDouble ve ._ ile başlayan
+# dosyalar, macOS'un yabancı dosya sistemlerinde tuttuğu kaynak çatallarıdır.
+# Aynı gerekçeyle yok sayılırlar. Bu satırlar olmazsa laboratuvar
+# bilgisayarından yapılan her kayıtta "ne değişti?" sorusunun yanıtı uygulama
+# değil, Finder olur.
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# -----------------------------------------------------------------------------
+# Günlükler, test kapsamı ve TypeScript ara dosyaları
+# -----------------------------------------------------------------------------
+# Hata ayıklama günlükleri bir çalıştırmanın izidir, kaynağın değil. coverage
+# klasörü test koşucusunun ürettiği rapordur ve her seferinde yeniden
+# hesaplanır. tsconfig.tsbuildinfo, TypeScript'in artımlı derlemeyi
+# hızlandırmak için tuttuğu makineye özel önbellektir. Hiçbiri incelemede
+# okunacak kaynak değildir.
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# -----------------------------------------------------------------------------
+# Kişisel düzenleyici ayarları
+# -----------------------------------------------------------------------------
+# .idea ve benzeri klasörler geliştiricinin pencere düzenini, kişisel
+# çalıştırma yapılandırmasını ve mutlak dosya yollarını saklar. Başka bir
+# hocanın veya öğrencinin makinesinde geçersizdir. Ortak paylaşılmak istenen
+# editör önerisi olursa yalnızca .vscode/extensions.json gibi seçilmiş
+# dosyalar istisna tutularak depoya alınır. Geri kalan kişisel ayar dışarıda
+# kalır.
+
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
