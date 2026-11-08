@@ -1,0 +1,10 @@
+/*
+Tailwind 3'teki üç yönerge bu sürümde kaldırıldı:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+Yerine tek @import gelir. @config, tailwind.config.js içindeki
+primary ve secondary renklerini bu dosyaya bağlar.
+*/
+@import "tailwindcss";
+@config "../tailwind.config.js";
