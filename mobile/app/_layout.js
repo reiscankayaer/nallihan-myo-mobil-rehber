@@ -82,6 +82,7 @@ function ThemedShell() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="duyurular" options={{ headerShown: false }} />
       </Stack>
     </>
   );

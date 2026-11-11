@@ -7,8 +7,9 @@ bir sayfa değildir. Layout'un sol kolonudur.
 
 GÜVENLİK NOTU
 Menü satırı yetki vermez. Görünen satır, o işi yapma hakkı değildir.
-Bu sürümde satırların ardı boş sayfadır. Yazma formu yoktur. Personel
-rolü Firebase bağlanınca satırları kesecek.
+Satır, Firestore kuralının yerine geçmez. Duyuru, yemekhane ve
+ulaşım satırlarının ardında yazma formu vardır. Kural izin vermezse
+kayıt düşmez.
 
 STATE YÖNETİMİ
 Seçili satır useState ile tutulmaz. NavLink, adres çubuğundan okur.
@@ -24,12 +25,14 @@ import {
   LayoutDashboard,
   Megaphone,
   Settings,
+  Utensils,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
 const ITEMS = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/duyurular', label: 'Duyurular', icon: Megaphone },
+  { to: '/yemekhane', label: 'Yemekhane', icon: Utensils },
   { to: '/yurtlar', label: 'Yurtlar ve Pansiyonlar', icon: Building },
   { to: '/ulasim', label: 'Ulaşım ve Fiyatlar', icon: Bus },
   { to: '/bolumler', label: 'Bölümler', icon: GraduationCap },

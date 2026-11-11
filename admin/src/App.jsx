@@ -8,7 +8,8 @@ içindeki AdminLayout'tadır. Layout üst çubuğu ve Outlet'i bir kez
 GÜVENLİK NOTU
 AdminLayout, ProtectedRoute ile sarılıdır. currentUser yoksa bu
 adresler açılmaz. /login bu kalkanın dışındadır. Oturum AuthProvider
-içinden okunur. Sayfalar hâlâ Firestore'a yazmaz.
+içinden okunur. Duyuru, ulaşım ve yemekhane sayfaları Firestore'a
+yazar. Yazmanın kilidi istemci değil, Firestore kuralıdır.
 
 STATE YÖNETİMİ
 App seçili menüyü state ile tutmaz. Seçili satır, adresin kendisidir.
@@ -24,6 +25,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Duyurular from './pages/Duyurular.jsx'
 import Login from './pages/Login.jsx'
 import Ulasim from './pages/Ulasim.jsx'
+import Yemekhane from './pages/Yemekhane.jsx'
 import Yurtlar from './pages/Yurtlar.jsx'
 
 export default function App() {
@@ -39,6 +41,7 @@ export default function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="duyurular" element={<Duyurular />} />
+        <Route path="yemekhane" element={<Yemekhane />} />
         <Route path="yurtlar" element={<Yurtlar />} />
         <Route path="ulasim" element={<Ulasim />} />
         <Route path="bolumler" element={<Bolumler />} />

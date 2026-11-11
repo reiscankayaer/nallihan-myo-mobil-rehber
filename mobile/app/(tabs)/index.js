@@ -21,6 +21,7 @@ yazılır. InfoModal o state doluyken görünür.
 import { useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import CampusSearch from '../../src/components/CampusSearch';
@@ -84,6 +85,44 @@ Basılan kısayol setShortcut ile yazılır. Modal, CAMPUS_SHORTCUTS içinden
 o kaydı ve varsa bağlı birimin katını gösterir. Numara satırı tel
 bağlantısı açar.
 */
+
+/*
+MİMARİ GEREKÇE
+Duyuru listesi bu sekmenin içinde ikinci bir dikey liste olmaz.
+Kapı, kök yığındaki duyurular ekranını açar. Dört sekme aynı kalır.
+
+PERFORMANS NOTU
+Kapı bir Pressable'dır. Firestore dinleyicisi bu dosyada kurulmaz.
+Dinleyici yalnızca duyurular ekranı açıkken yaşar.
+
+NASIL ÇALIŞIR?
+Basılınca router /duyurular adresine iter. Geri, bu sekmeye döner.
+*/
+
+function AnnouncementDoor() {
+  const router = useRouter();
+  const { colors, scaleFont } = useTheme();
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Duyuruları aç"
+      onPress={() => router.push('/duyurular')}
+      style={[styles.door, { backgroundColor: colors.card, borderColor: colors.border }]}
+    >
+      <Ionicons name="megaphone-outline" size={22} color={colors.accent} />
+      <View style={styles.doorText}>
+        <Text style={[styles.shortcutLabel, { color: colors.textPrimary, fontSize: scaleFont(16) }]}>
+          Duyurular
+        </Text>
+        <Text style={[styles.programMeta, { color: colors.textSecondary, fontSize: scaleFont(13) }]}>
+          Panelden gelen kayıtlar
+        </Text>
+      </View>
+      <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} />
+    </Pressable>
+  );
+}
 
 function ShortcutRow({ onOpen }) {
   const { colors, scaleFont } = useTheme();
@@ -194,6 +233,7 @@ export default function UniversitemizScreen() {
         }
         footer={
           <View style={styles.footerBlocks}>
+            <AnnouncementDoor />
             <ShortcutRow onOpen={setShortcut} />
             <ProgramRail onOpen={setProgram} />
           </View>
@@ -322,6 +362,20 @@ const styles = StyleSheet.create({
   },
   footerBlocks: {
     gap: 16,
+  },
+  door: {
+    minHeight: 64,
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  doorText: {
+    flex: 1,
+    gap: 2,
   },
   section: {
     fontWeight: '700',
